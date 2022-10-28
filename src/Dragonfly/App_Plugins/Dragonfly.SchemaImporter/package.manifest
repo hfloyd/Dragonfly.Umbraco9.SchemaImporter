@@ -1,0 +1,20 @@
+﻿{
+    "name": "Dragonfly Schema Importer",
+    "dashboards": [
+        {
+            "alias": "Dragonfly.SchemaImporter",
+            "view": "~/App_Plugins/Dragonfly.SchemaImporter/Dashboard.html",
+            "sections": [ "settings" ],
+            "weight": 100
+        }
+    ],
+
+    "javascript": [
+        "~/App_Plugins/Dragonfly.SchemaImporter/schemaImporterController.js"
+    ],
+
+    "css": [
+        "~/App_Plugins/Dragonfly.SchemaImporter/schemaImporter.css"
+    ]
+    
+}

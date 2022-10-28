@@ -1,0 +1,94 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+    <TargetFramework>net5</TargetFramework>
+		<MvcRazorCompileOnPublish>false</MvcRazorCompileOnPublish>
+		<ContentTargetFolders>content</ContentTargetFolders>
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+	</PropertyGroup>
+
+	<!-- Package Description-->
+	<PropertyGroup>
+		<PackageId>Dragonfly.Umbraco9.SchemaImporter</PackageId>
+		<Title>Dragonfly Umbraco 9 SchemaImporter</Title>
+		<Product>Dragonfly Umbraco 9 SchemaImporter</Product>
+		<Description>A tool to quickly import a generated package.xml file into the back-office of an Umbraco 9 Site</Description>
+
+		<PackageProjectUrl>https://github.com/hfloyd/Dragonfly.Umbraco9.SchemaImporter</PackageProjectUrl>
+		<RepositoryType>GIT</RepositoryType>
+		<RepositoryUrl>https://github.com/hfloyd/Dragonfly.Umbraco9.SchemaImporter</RepositoryUrl>
+
+		<PackageTags>Umbraco 9</PackageTags>
+		<PackageReleaseNotes>Initial Release</PackageReleaseNotes>
+	</PropertyGroup>
+
+	<!-- Author Info + Legal-->
+	<PropertyGroup>
+		<Authors>Heather Floyd</Authors>
+		<Company></Company>
+		<Copyright>Heather Floyd [www.HeatherFloyd.com]</Copyright>
+
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+		<PackageLicenseFile>LICENSE.md</PackageLicenseFile>
+	</PropertyGroup>
+
+
+	<!-- Assembly Info-->
+	<PropertyGroup>
+		<RootNamespace>Dragonfly</RootNamespace>
+		<AssemblyName>Dragonfly.SchemaImporter</AssemblyName>
+		<Version>1.0.0</Version>
+		<AssemblyVersion>$(Version)</AssemblyVersion>
+		<FileVersion>$(Version)</FileVersion>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<None Include="..\..\LICENSE.md">
+			<Pack>True</Pack>
+			<PackagePath></PackagePath>
+		</None>
+		<None Include="..\..\README.md">
+			<Pack>True</Pack>
+			<PackagePath>\</PackagePath>
+		</None>
+	</ItemGroup>
+
+	<!-- Packages-->
+	<ItemGroup>
+		<PackageReference Include="Dragonfly.Net5" Version="1.3.0" />
+		<PackageReference Include="Umbraco.Cms.Core" Version="9.3.0" PrivateAssets="All" />
+
+		<PackageReference Include="Umbraco.Cms.Web.Website" Version="9.3.0" PrivateAssets="All" />
+		
+		<PackageReference Include="Umbraco.Cms.Web.BackOffice" Version="9.3.0" PrivateAssets="All" />
+	</ItemGroup>
+
+	<!--Include App_Plugins & targets file-->
+	<ItemGroup>
+		<Content Include="App_Plugins\Dragonfly.SchemaImporter\**\*.*">
+			<ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+			<CopyToPublishDirectory>Always</CopyToPublishDirectory>
+			<Pack>True</Pack>
+		</Content>
+		<None Include="build\**\*.*">
+			<Pack>True</Pack>
+			<PackagePath>buildTransitive</PackagePath>
+		</None>
+	</ItemGroup>
+
+	<Import Project="..\Custom.targets" />
+
+	<ItemGroup>
+	  <None Remove="App_Plugins\Dragonfly.SchemaImporter\schemaImporter.css" />
+	</ItemGroup>
+
+
+	<!-- Excluded Files -->
+	<ItemGroup>
+	  <Folder Include="SchemaImporter\Models\" />
+	</ItemGroup>
+
+	<Target Name="PostBuild" AfterTargets="PostBuildEvent">
+		<Exec Command="REM XCOPY /y &quot;$(TargetDir)$(TargetName)*.*&quot; &quot;\bin\&quot;&#xD;&#xA;REM XCOPY /y &quot;$(TargetDir)$(TargetName)*.*&quot; &quot;XXX\bin\&quot;" />
+	</Target>
+</Project>
