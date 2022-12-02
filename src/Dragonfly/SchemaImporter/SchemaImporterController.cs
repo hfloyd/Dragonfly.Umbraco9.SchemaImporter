@@ -17,11 +17,9 @@ namespace Dragonfly.SchemaImporter
     using Microsoft.Extensions.Logging;
     using Newtonsoft.Json;
     using Newtonsoft.Json.Serialization;
-    using NPoco.fastJSON;
     using Umbraco.Cms.Web.BackOffice.Controllers;
     using Umbraco.Cms.Web.Common.Attributes;
     using Umbraco.Extensions;
-
 
     //  /umbraco/backoffice/Dragonfly/SchemaImporter/
     [PluginController("Dragonfly")]
@@ -79,6 +77,8 @@ namespace Dragonfly.SchemaImporter
         [HttpPost]
         public async Task<UploadImportResult> UploadImport()
         {
+            var msgDefault = $"Error occurred during Schema Import.";
+
             var file = Request.Form.Files[0];
             //var clean = Request.Form["clean"];
 
@@ -135,6 +135,9 @@ namespace Dragonfly.SchemaImporter
                     else
                     {
                         var error = $"Files of type '{ext}' are not supported.";
+
+                        _logger.LogError($"{msgDefault}: {error}");
+
                         var result = new StatusMessage(false, error);
                         return new UploadImportResult(false)
                         {
@@ -144,9 +147,23 @@ namespace Dragonfly.SchemaImporter
                         };
                     }
                 }
-                catch
+                catch (Exception ex)
                 {
-                    throw;
+                    var result = new StatusMessage(false, msgDefault);
+                    result.RelatedException = ex;
+
+                    _logger.LogError($"{msgDefault}: {ex.Message}", ex);
+
+
+                    var errs = msgDefault.AsEnumerableOfOne().ToList();
+                    errs.Add(ex.Message);
+
+                    return new UploadImportResult(false)
+                    {
+                        Errors = errs,
+                        FilePath = tempFile,
+                        DetailedResultStatus = result
+                    };
                 }
                 finally
                 {
