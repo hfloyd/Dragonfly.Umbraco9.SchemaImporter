@@ -1,6 +1,7 @@
 # Dragonfly Umbraco 9 Schema Importer #
 
 A tool to quickly import a generated package.xml file into the back-office of an Umbraco 9 Site created by [Heather Floyd](https://www.HeatherFloyd.com).
+
 [![Dragonfly Website](https://img.shields.io/badge/Dragonfly-Website-A84492)](https://DragonflyLibraries.com/umbraco-packages/schema-importer/) [![Nuget Downloads](https://buildstats.info/nuget/Dragonfly.Umbraco9.SchemaImporter)](https://www.nuget.org/packages/Dragonfly.Umbraco9.SchemaImporter/) [![GitHub](https://img.shields.io/badge/GitHub-Sourcecode-blue?logo=github)](https://github.com/hfloyd/Dragonfly.Umbraco9.SchemaImporter)
 
 
